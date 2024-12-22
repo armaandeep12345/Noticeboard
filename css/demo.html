@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Slider - CSS & JS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card-slider {
+            position: relative;
+            width: 80%;
+            margin: 50px auto;
+            overflow: hidden;
+        }
+
+        .card-slider .cards {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .card-slider .card {
+            flex: 0 0 33.333%; /* 3 cards per row */
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .card-slider .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .card-slider .card-body {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .card-slider .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .card-slider .card-text {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .card-slider .prev,
+        .card-slider .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .card-slider .prev {
+            left: 10px;
+        }
+
+        .card-slider .next {
+            right: 10px;
+        }
+
+        .card-slider .dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+        .card-slider .dots li {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .card-slider .dots li.active {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-slider">
+        <div class="cards">
+            <div class="card">
+                <img src="https://via.placeholder.com/400x250" alt="Card Image 1">
+            </div>
+
+            <div class="card">
+                <img src="https://via.placeholder.com/400x250" alt="Card Image 2">
+            </div>
+
+            <div class="card">
+                <img src="https://via.placeholder.com/400x250" alt="Card Image 3">
+            </div>
+
+            <div class="card">
+                <img src=https://via.placeholder.com/800x400" alt="Card Image 4">
+            </div>
+
+            <div class="card">
+                <img src="https://via.placeholder.com/800x400" alt="Card Image 5">
+            </div>
+
+            <div class="card">
+                <img src="https://via.placeholder.com/800x400" alt="Card Image 6">
+            </div>
+        </div>
+
+        <button class="prev">&lt;</button>
+        <button class="next">&gt;</button>
+
+        <ul class="dots">
+            <li class="active" data-slide="0"></li>
+            <li data-slide="1"></li>
+            <li data-slide="2"></li>
+            <li data-slide="3"></li>
+            <li data-slide="4"></li>
+            <li data-slide="5"></li>
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.querySelector('.card-slider .cards');
+            const items = document.querySelectorAll('.card-slider .card');
+            const prevButton = document.querySelector('.card-slider .prev');
+            const nextButton = document.querySelector('.card-slider .next');
+            const dots = document.querySelectorAll('.card-slider .dots li');
+
+            let currentSlide = 0;
+
+            function goToSlide(index) {
+                const itemWidth = items[0].offsetWidth;
+                slider.style.transform = `translateX(-${itemWidth * index}px)`;
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            nextButton.addEventListener('click', () => {
+                if (currentSlide < items.length - 1) {
+                    goToSlide(currentSlide + 1);
+                } else {
+                    goToSlide(0);
+                }
+            });
+
+            prevButton.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    goToSlide(currentSlide - 1);
+                } else {
+                    goToSlide(items.length - 1);
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => goToSlide(index));
+            });
+        });
+    </script>
+
+</body>
+</html>
